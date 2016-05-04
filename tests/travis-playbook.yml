@@ -1,0 +1,7 @@
+---
+
+- hosts: all
+  remote_user: root
+  roles:
+  - role: ansible-postfix
+    postfix_mail_domain: 'example.org'

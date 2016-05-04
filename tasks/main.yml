@@ -1,0 +1,19 @@
+---
+
+- name: Configure postfix debconf
+  debconf: name='postfix'
+           question='{{ item.key }}'
+           vtype='string'
+           value='{{ item.value }}'
+  with_dict:
+    postfix/main_mailer_type: 'Internet Site'
+    postfix/mailname: '{{postfix_mail_domain}}'
+
+- name: Install postfix packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+  with_items:
+  - postfix
+
+
