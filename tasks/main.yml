@@ -29,3 +29,32 @@
     line:  "smtpd_tls_security_level=may"
     regexp: "^smtpd_tls_security_level"
     insertafter: "EOF"
+
+- name: Use file for mydestinations
+  lineinfile:
+    dest:  "/etc/postfix/main.cf"
+    line:  "mydestination = hash:/etc/postfix/destinations"
+    regexp: "^mydestination"
+
+- name: Add postfix domain to destinations
+  lineinfile:
+    dest:  "/etc/postfix/destinations"
+    line:  "{{postfix_mail_domain}} OK"
+    regexp: "^{{postfix_mail_domain}}"
+    insertafter: "EOF"
+    owner:  "root"
+    group:  "root"
+    mode:   "0640"
+    create: "yes"
+- name: Add local domain to destinations
+  lineinfile:
+    dest:  "/etc/postfix/destinations"
+    line:  "localhost OK"
+    regexp: "^localhost"
+    insertafter: "EOF"
+  register: dest_file
+
+- name: Run postmap for the destination file
+  command: "postmap /etc/postfix/destinations"
+  notify: reload postfix
+  when: dest_file.changed
