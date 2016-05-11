@@ -16,4 +16,16 @@
   with_items:
   - postfix
 
+- name: Add TLS config for outgoing connections
+  lineinfile:
+    dest:  "/etc/postfix/main.cf"
+    line:  "smtp_tls_security_level=may"
+    regexp: "^smtp_tls_security_level"
+    insertafter: "EOF"    
 
+- name: Add TLS config for ingoing connections
+  lineinfile:
+    dest:  "/etc/postfix/main.cf"
+    line:  "smtpd_tls_security_level=may"
+    regexp: "^smtpd_tls_security_level"
+    insertafter: "EOF"
