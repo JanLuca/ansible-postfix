@@ -46,6 +46,7 @@
     group:  "root"
     mode:   "0640"
     create: "yes"
+
 - name: Add local domain to destinations
   lineinfile:
     dest:  "/etc/postfix/destinations"
@@ -56,5 +57,5 @@
 
 - name: Run postmap for the destination file
   command: "postmap /etc/postfix/destinations"
-  notify: reload postfix
+  notify: restart postfix
   when: dest_file.changed
