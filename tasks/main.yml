@@ -1,13 +1,16 @@
 ---
 
-- name: Configure postfix debconf
+- name: Configure postfix debconf type
   debconf: name='postfix'
-           question='{{ item.key }}'
+           question='postfix/main_mailer_type'
            vtype='string'
-           value='{{ item.value }}'
-  with_dict:
-    postfix/main_mailer_type: 'Internet Site'
-    postfix/mailname: '{{postfix_mail_domain}}'
+           value='Internet Site'
+
+- name: Configure postfix debconf domain name
+  debconf: name='postfix'
+           question='postfix/mailname'
+           vtype='string'
+           value='{{postfix_mail_domain}}'
 
 - name: Install postfix packages
   apt:
@@ -57,5 +60,5 @@
 
 - name: Run postmap for the destination file
   command: "postmap /etc/postfix/destinations"
-  notify: restart postfix
+  notify: reload postfix
   when: dest_file.changed
