@@ -4,4 +4,5 @@
   remote_user: root
   roles:
   - role: ansible-postfix
-    postfix_mail_domain: 'example.org'
+    postfix_mail_domains:
+    - 'example.org'

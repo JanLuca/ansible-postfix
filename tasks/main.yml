@@ -47,7 +47,7 @@
     group:  "root"
     mode:   "0640"
     create: "yes"
-  with_item: '{{ postfix_mail_domains }}'
+  with_items: '{{ postfix_mail_domains }}'
   register: postfix_dest_file
 
 - name: Add local domain to destinations
