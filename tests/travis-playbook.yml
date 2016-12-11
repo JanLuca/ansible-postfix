@@ -6,3 +6,5 @@
   - role: ansible-postfix
     postfix_mail_domains:
     - 'example.org'
+    postfix_myhostname: 'test.example.org'
+    postfix_virtual_alias_maps: []
