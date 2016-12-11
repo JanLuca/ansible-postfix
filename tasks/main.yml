@@ -14,10 +14,8 @@
 
 - name: Install postfix packages
   apt:
-    name: '{{ item }}'
+    name: postfix
     state: 'present'
-  with_items:
-  - postfix
 
 - name: Add TLS config for outgoing connections
   lineinfile:
@@ -42,13 +40,15 @@
 - name: Add postfix domain to destinations
   lineinfile:
     dest:  "/etc/postfix/destinations"
-    line:  "{{postfix_mail_domain}} OK"
-    regexp: "^{{postfix_mail_domain}}"
+    line:  "{{ item }} OK"
+    regexp: "^{{ item }}"
     insertafter: "EOF"
     owner:  "root"
     group:  "root"
     mode:   "0640"
     create: "yes"
+  with_item: '{{ postfix_mail_domains }}'
+  register: postfix_dest_file
 
 - name: Add local domain to destinations
   lineinfile:
@@ -56,9 +56,9 @@
     line:  "localhost OK"
     regexp: "^localhost"
     insertafter: "EOF"
-  register: dest_file
+  register: postfix_dest_file_local
 
 - name: Run postmap for the destination file
   command: "postmap /etc/postfix/destinations"
   notify: reload postfix
-  when: dest_file.changed
+  when: postfix_dest_file.changed or postfix_dest_file_local.changed
