@@ -10,7 +10,7 @@
   debconf: name='postfix'
            question='postfix/mailname'
            vtype='string'
-           value='{{postfix_mail_domain}}'
+           value='{{postfix_mail_domains[0]}}'
 
 - name: Install postfix packages
   apt:
