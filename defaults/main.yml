@@ -1,2 +1,4 @@
 ---
 
+postfix_config_directory: '/etc/postfix'
+postfix_virtual_alias_maps_file: '{{ postfix_config_directory }}/virtual_alias_map'
