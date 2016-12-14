@@ -2,3 +2,9 @@
 
 postfix_config_directory: '/etc/postfix'
 postfix_virtual_alias_maps_file: '{{ postfix_config_directory }}/virtual_alias_map'
+
+postfix_virtual_alias_maps: []
+# Example for postfix_virtual_alias_maps:
+# postfix_virtual_alias_maps:
+# - match: '@example.org'
+#   dest:  'test@example.org'
