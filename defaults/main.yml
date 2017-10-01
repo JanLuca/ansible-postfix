@@ -2,6 +2,10 @@
 
 postfix_config_directory: '/etc/postfix'
 postfix_virtual_alias_maps_file: '{{ postfix_config_directory }}/virtual_alias_map'
+postfix_mynetworks:
+- '127.0.0.0/8'
+- '[::ffff:127.0.0.0]/104'
+- '[::1]/128'
 
 postfix_virtual_alias_maps: []
 # Example for postfix_virtual_alias_maps:

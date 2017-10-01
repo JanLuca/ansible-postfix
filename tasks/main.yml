@@ -55,6 +55,13 @@
     insertafter: "EOF"
   notify: reload postfix
 
+- name: Set mynetworks in main.cf
+  lineinfile:
+    dest:  "/etc/postfix/main.cf"
+    line:  "mynetworks = {{ postfix_mynetworks | join(' ') }}"
+    regexp: "^mynetworks"
+  notify: reload postfix
+
 - name: Add postfix domains to destinations
   lineinfile:
     dest:  "/etc/postfix/destinations"
